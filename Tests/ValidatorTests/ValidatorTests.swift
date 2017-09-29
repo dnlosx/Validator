@@ -32,5 +32,6 @@ class ValidatorTests: XCTestCase {
 
     static var allTests = [
         ("testEmail", testEmail),
+        ("testURL", testURL)
     ]
 }

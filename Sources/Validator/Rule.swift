@@ -48,7 +48,7 @@ public struct Rule {
     struct URL: Validation {
 
         func validate(_ string: String) throws {
-            let expression = "(http)(s)?(\\:\\/\\/)(www\\.)?([^\\ ]*)"
+            let expression = "(http)(s)?(\\:\\/\\/)?([^\\ ]*)"
 
             let predicate = NSPredicate(format:"SELF MATCHES[c] %@", expression)
 

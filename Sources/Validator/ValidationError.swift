@@ -8,7 +8,7 @@
 
 import Foundation
 
-
+/// Designated to describe an validation error.
 class ValidationError: LocalizedError {
 
     var localizedDescription: String

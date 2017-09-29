@@ -23,12 +23,12 @@ extension String {
     /// - parameter rules: The rules to verify.
     /// - throws: A validation error if any validation fails.
     func validate(_ rules: [Validation]) throws {
-        // TODO: Tests all rules and join all eror in a single one...
+        // TODO: Tests all rules and join all erors in a single one...
     }
 
     /// Checks if the rule is valid.
     ///
-    /// - returns: True if the validations success
+    /// - returns: True if the validations success.
     func isValid(_ rule: Validation) -> Bool {
         do {
             try validate(rule)
