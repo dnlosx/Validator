@@ -45,22 +45,6 @@ public struct Rule {
         }
     }
 
-    struct URL: Validation {
-
-        func validate(_ string: String) throws {
-            let expression = "(http)(s)?(\\:\\/\\/)?([^\\ ]*)"
-
-            let predicate = NSPredicate(format:"SELF MATCHES[c] %@", expression)
-
-            if !predicate.evaluate(with: string) {
-                let message = NSLocalizedString("InvalidURL_WithFormat", comment: "The URL entered doesn't have a valid format.")
-                let formatedMessage = String.localizedStringWithFormat(message, string)
-                let error = ValidationError(localizedDescription: formatedMessage)
-                throw error
-            }
-        }
-    }
-
     struct Starts: Validation {
         private let prefix: String
 

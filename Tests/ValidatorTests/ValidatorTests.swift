@@ -19,14 +19,33 @@ class ValidatorTests: XCTestCase {
     }
 
     func testURL() {
-        let urlRule = Rule.URL()
+        // web
+        let webRule = Rule.URL.web
 
         // Test valid URL
-        XCTAssertNoThrow(try "http://example.com".validate(urlRule))
-        XCTAssertNoThrow(try "https://subdomain.domain.com.mx".validate(urlRule))
+        XCTAssertNoThrow(try "http://example.com".validate(webRule))
+        XCTAssertNoThrow(try "https://subdomain.domain.com.mx".validate(webRule))
 
         // Test invalid URL
-        XCTAssertThrowsError(try "example".validate(urlRule))
+        XCTAssertThrowsError(try "example".validate(webRule))
+        XCTAssertThrowsError(try "ftp://domain.com".validate(webRule))
+        
+        // https
+        let webSSLRule = Rule.URL.webSSL
+        
+        // Test valid https
+        XCTAssertNoThrow(try "https://example.com".validate(webSSLRule))
+        
+        // Test invalid https
+        XCTAssertThrowsError(try "http://example.com".validate(webSSLRule))
+        
+        let ftpRule = Rule.URL.ftp
+        
+        // Test valid ftp
+        XCTAssertNoThrow(try "ftp://localhost".validate(ftpRule))
+        
+        // Test invalid ftp
+        XCTAssertThrowsError(try "//localhost".validate(ftpRule))
     }
 
 
