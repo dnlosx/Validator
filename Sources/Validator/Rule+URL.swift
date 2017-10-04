@@ -22,7 +22,7 @@ extension Rule {
         /// Validates URLs that starts with 'mailto:'
         case mailto
         
-        /// Validate URLs that starts with the specified scheme.
+        /// Validates URLs that starts with the specified scheme.
         /// For example if 'scheme' is data, then will validates the URLs that starts with 'data:'.
         /// Only supports alphanumeric schemes.
         ///
