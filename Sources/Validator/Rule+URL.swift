@@ -67,7 +67,7 @@ extension Rule {
         /// An Rule.URL instance that validate 'http:' and 'https:' URLs.
         static var web = URL(scheme: .web(onlySSL: false))
         
-        /// An Rule.URL instance that only validates 'https:¡ URLs.
+        /// An Rule.URL instance that only validates 'https:' URLs.
         static var webSSL = URL(scheme: .web(onlySSL: true))
         
         /// An Rule.URL instance that validate 'ftp:' URLs.

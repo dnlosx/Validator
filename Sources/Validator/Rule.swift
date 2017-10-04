@@ -45,6 +45,7 @@ public struct Rule {
         }
     }
 
+    /// Designated to validates if the strings starts with te specified prefix.
     struct Starts: Validation {
         private let prefix: String
 
@@ -53,9 +54,28 @@ public struct Rule {
         }
 
         func validate(_ string: String) throws {
-            // TODO: Validate if the strings starts with the prefix.
+            if !string.hasPrefix(prefix) {
+                let message = NSLocalizedString("MustStartWith_WithFormat", comment: "The text entered must start with the prefix.")
+                let formatedMessage = String.localizedStringWithFormat(message, string)
+                let error = ValidationError(localizedDescription: formatedMessage)
+                throw error
+            }
         }
     }
 
+    /// Validates if the string is not empty.
+    struct NotEmpty: Validation {
+
+        func validate(_ string: String) throws {
+            let emptySet = CharacterSet.whitespaces.union(.newlines)
+
+            if string.trimmingCharacters(in: emptySet).isEmpty {
+                let message = NSLocalizedString("MustNotBeEmpty_WithFormat", comment: "The text must not be empty.")
+                let formatedMessage = String.localizedStringWithFormat(message, string)
+                let error = ValidationError(localizedDescription: formatedMessage)
+                throw error
+            }
+        }
+    }
 
 }
