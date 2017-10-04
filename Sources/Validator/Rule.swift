@@ -67,9 +67,7 @@ public struct Rule {
     struct NotEmpty: Validation {
 
         func validate(_ string: String) throws {
-            let emptySet = CharacterSet.whitespaces.union(.newlines)
-
-            if string.trimmingCharacters(in: emptySet).isEmpty {
+            if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 let message = NSLocalizedString("MustNotBeEmpty_WithFormat", comment: "The text must not be empty.")
                 let formatedMessage = String.localizedStringWithFormat(message, string)
                 let error = ValidationError.singleValidation(localizedDescription: formatedMessage)
