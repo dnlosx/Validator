@@ -47,8 +47,8 @@ extension Rule {
                 
             }
         }
-        
-        
+
+
     }
 
     struct URL: Validation {
@@ -86,12 +86,13 @@ extension Rule {
             if !predicate.evaluate(with: string) {
                 let message = NSLocalizedString("InvalidURL_WithFormat", comment: "The URL entered doesn't have a valid format.")
                 let formatedMessage = String.localizedStringWithFormat(message, string)
-                let error = ValidationError(localizedDescription: formatedMessage)
+                let error = ValidationError.singleValidation(localizedDescription: formatedMessage)
                 throw error
             }
         }
         
 
     }
-    
+
+
 }

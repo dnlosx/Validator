@@ -39,7 +39,7 @@ public struct Rule {
             if !predicate.evaluate(with: string) {
                 let message = NSLocalizedString("InvalidEmail_WithFormat", comment: "The e-mail entered doesn't have a valid format.")
                 let formatedMessage = String.localizedStringWithFormat(message, string)
-                let error = ValidationError(localizedDescription: formatedMessage)
+                let error = ValidationError.singleValidation(localizedDescription: formatedMessage)
                 throw error
             }
         }
@@ -57,7 +57,7 @@ public struct Rule {
             if !string.hasPrefix(prefix) {
                 let message = NSLocalizedString("MustStartWith_WithFormat", comment: "The text entered must start with the prefix.")
                 let formatedMessage = String.localizedStringWithFormat(message, string)
-                let error = ValidationError(localizedDescription: formatedMessage)
+                let error = ValidationError.singleValidation(localizedDescription: formatedMessage)
                 throw error
             }
         }
@@ -72,7 +72,7 @@ public struct Rule {
             if string.trimmingCharacters(in: emptySet).isEmpty {
                 let message = NSLocalizedString("MustNotBeEmpty_WithFormat", comment: "The text must not be empty.")
                 let formatedMessage = String.localizedStringWithFormat(message, string)
-                let error = ValidationError(localizedDescription: formatedMessage)
+                let error = ValidationError.singleValidation(localizedDescription: formatedMessage)
                 throw error
             }
         }
