@@ -66,6 +66,8 @@ extension Rule {
         
         let scheme: Scheme
         
+        var customErrorMessage: String?
+        
         /// Designated initializer method
         ///
         /// - parameter scheme: Defines the kind of URL protocol to validate, for example: use '.ftp' to validate 'ftp:'.
@@ -95,7 +97,27 @@ extension Rule {
             let predicate = NSPredicate(format:"SELF MATCHES[c] %@", expression)
             
             if !predicate.evaluate(with: string) {
-                let message = NSLocalizedString("InvalidURL_WithFormat", comment: "The URL entered doesn't have a valid format.")
+                let message: String
+                
+                if let customErrormEssage = customErrorMessage {
+                    message = customErrormEssage
+                } else {
+                    switch scheme {
+                    case .ftp:
+                        message = NSLocalizedString("InvalidURLFTP_WithFormat", comment: "The URL entered doesn't have a valid format for ftp.")
+                    case .web(onlySSL: let onlySSL):
+                        if onlySSL {
+                            message = NSLocalizedString("InvalidURLSSL_WithFormat", comment: "The URL entered must be have a valid format that starts with 'https://'.")
+                        } else {
+                            message = NSLocalizedString("InvalidURL_WithFormat", comment: "The URL entered doesn't have a valid format.")
+                        }
+                    case .mailto:
+                        message = NSLocalizedString("InvalidURLMailTo_WithFormat", comment: "The URL entered must be have a valid format that starts with 'mailto://'.")
+                    case .custom(scheme: _):
+                        message = NSLocalizedString("InvalidURL_WithFormat", comment: "The URL entered doesn't have a valid format.")
+                    }
+                }
+                
                 let formatedMessage = String.localizedStringWithFormat(message, string)
                 let error = ValidationError.singleValidation(localizedDescription: formatedMessage)
                 throw error

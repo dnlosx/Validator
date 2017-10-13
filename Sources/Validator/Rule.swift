@@ -24,6 +24,8 @@ public struct Rule {
     /// Designated to validate e-mails.
     struct Email: Validation {
 
+        var customErrorMessage: String?
+
         func validate(_ string: String) throws {
             /// RFC 2822 Validation
             let expression = "(?:[a-z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-z0-9!#$%\\&'*+/=?\\^_`{|}"
@@ -37,7 +39,7 @@ public struct Rule {
             let predicate = NSPredicate(format:"SELF MATCHES[c] %@", expression)
 
             if !predicate.evaluate(with: string) {
-                let message = NSLocalizedString("InvalidEmail_WithFormat", comment: "The e-mail entered doesn't have a valid format.")
+                let message = (customErrorMessage != nil) ? customErrorMessage! : NSLocalizedString("InvalidEmail_WithFormat", comment: "The e-mail entered doesn't have a valid format.")
                 let formatedMessage = String.localizedStringWithFormat(message, string)
                 let error = ValidationError.singleValidation(localizedDescription: formatedMessage)
                 throw error
@@ -47,6 +49,9 @@ public struct Rule {
 
     /// Designated to validates if the strings starts with te specified prefix.
     struct Starts: Validation {
+        
+        var customErrorMessage: String?
+        
         private let prefix: String
 
         init(with prefix: String) {
@@ -55,7 +60,7 @@ public struct Rule {
 
         func validate(_ string: String) throws {
             if !string.hasPrefix(prefix) {
-                let message = NSLocalizedString("MustStartWith_WithFormat", comment: "The text entered must start with the prefix.")
+                let message = (customErrorMessage != nil) ? customErrorMessage! : NSLocalizedString("MustStartWith_WithFormat", comment: "The text entered must start with the prefix.")
                 let formatedMessage = String.localizedStringWithFormat(message, string)
                 let error = ValidationError.singleValidation(localizedDescription: formatedMessage)
                 throw error
@@ -65,11 +70,20 @@ public struct Rule {
 
     /// Validates if the string is not empty.
     struct NotEmpty: Validation {
+        
+        var fieldName: String
+        
+        var customErrorMessage: String?
+        
+        init(fieldName: String, customErrormEssage: String? = nil) {
+            self.fieldName = fieldName
+            self.customErrorMessage = customErrormEssage
+        }
 
         func validate(_ string: String) throws {
             if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                let message = NSLocalizedString("MustNotBeEmpty_WithFormat", comment: "The text must not be empty.")
-                let formatedMessage = String.localizedStringWithFormat(message, string)
+                let message = (customErrorMessage != nil) ? customErrorMessage! : NSLocalizedString("MustNotBeEmpty_WithFormat", comment: "The text must not be empty.")
+                let formatedMessage = String.localizedStringWithFormat(message, fieldName)
                 let error = ValidationError.singleValidation(localizedDescription: formatedMessage)
                 throw error
             }

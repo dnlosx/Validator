@@ -58,7 +58,7 @@ class ValidatorTests: XCTestCase {
     }
 
     func testNoEmpty() {
-        let notEmptyRule = Rule.NotEmpty()
+        let notEmptyRule = Rule.NotEmpty(fieldName: "First name")
 
         // Test valid strings.
         XCTAssertNoThrow(try "anything".validate(notEmptyRule))

@@ -26,5 +26,8 @@ public protocol Validation {
     ///
     /// - throws: An error if the validation vails.
     func validate(_ string: String) throws
+    
+    /// Allows to the user specify a custom error message.
+    var customErrorMessage: String? { set get }
 
 }
