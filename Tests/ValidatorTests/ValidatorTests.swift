@@ -46,8 +46,30 @@ class ValidatorTests: XCTestCase {
         
         // Test invalid ftp
         XCTAssertThrowsError(try "//localhost".validate(ftpRule))
+
+        let mailtoRule = Rule.URL.mailto
+
+        // Test valid mailto
+        XCTAssertNoThrow(try "mailto://example@email.com".validate(mailtoRule))
+
+        // Test invlalid mailto
+        XCTAssertThrowsError(try "http://example@email.com".validate(mailtoRule))
+
     }
 
+    func testNoEmpty() {
+        let notEmptyRule = Rule.NotEmpty()
+
+        // Test valid strings.
+        XCTAssertNoThrow(try "anything".validate(notEmptyRule))
+
+        // Test invalid strings.
+        XCTAssertThrowsError(try "".validate(notEmptyRule))
+        XCTAssertThrowsError(try " ".validate(notEmptyRule)) // Space
+        XCTAssertThrowsError(try "  ".validate(notEmptyRule)) // Tab
+        XCTAssertThrowsError(try "\n".validate(notEmptyRule)) // Break line
+
+    }
 
     static var allTests = [
         ("testEmail", testEmail),

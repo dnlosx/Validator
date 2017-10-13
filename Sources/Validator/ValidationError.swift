@@ -18,14 +18,21 @@
 
 import Foundation
 
+
 /// Designated to describe an validation error.
-class ValidationError: LocalizedError {
+public enum ValidationError: LocalizedError {
 
-    var localizedDescription: String
+    case singleValidation(localizedDescription: String)
+    case multiValidation(localizedDescriptions: [String])
 
-    init(localizedDescription: String) {
-        self.localizedDescription = localizedDescription
+
+    var localizedDescription: String  {
+        switch self {
+        case .singleValidation(localizedDescription: let description):
+            return description
+        case .multiValidation(localizedDescriptions: let descriptions):
+            return descriptions.joined(separator: "\n")
+        }
     }
-
 
 }

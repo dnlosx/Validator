@@ -33,7 +33,7 @@ extension Rule {
         /// Validates URLs that starts with 'mailto:'
         case mailto
         
-        /// Validate URLs that starts with the specified scheme.
+        /// Validates URLs that starts with the specified scheme.
         /// For example if 'scheme' is data, then will validates the URLs that starts with 'data:'.
         /// Only supports alphanumeric schemes.
         ///
@@ -58,8 +58,8 @@ extension Rule {
                 
             }
         }
-        
-        
+
+
     }
 
     struct URL: Validation {
@@ -78,7 +78,7 @@ extension Rule {
         /// An Rule.URL instance that validate 'http:' and 'https:' URLs.
         static var web = URL(scheme: .web(onlySSL: false))
         
-        /// An Rule.URL instance that only validates 'https:¡ URLs.
+        /// An Rule.URL instance that only validates 'https:' URLs.
         static var webSSL = URL(scheme: .web(onlySSL: true))
         
         /// An Rule.URL instance that validate 'ftp:' URLs.
@@ -97,12 +97,13 @@ extension Rule {
             if !predicate.evaluate(with: string) {
                 let message = NSLocalizedString("InvalidURL_WithFormat", comment: "The URL entered doesn't have a valid format.")
                 let formatedMessage = String.localizedStringWithFormat(message, string)
-                let error = ValidationError(localizedDescription: formatedMessage)
+                let error = ValidationError.singleValidation(localizedDescription: formatedMessage)
                 throw error
             }
         }
         
 
     }
-    
+
+
 }
