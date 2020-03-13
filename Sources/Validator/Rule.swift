@@ -22,11 +22,13 @@ import Foundation
 public struct Rule {
 
     /// Designated to validate e-mails.
-    struct Email: Validation {
+    public struct Email: Validation {
+        
+        public var customErrorMessage: String?
+        
+        public init() {}
 
-        var customErrorMessage: String?
-
-        func validate(_ string: String) throws {
+        public func validate(_ string: String) throws {
             /// RFC 2822 Validation
             let expression = "(?:[a-z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-z0-9!#$%\\&'*+/=?\\^_`{|}"
             + "~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\"
@@ -48,9 +50,9 @@ public struct Rule {
     }
 
     /// Designated to validates if the strings starts with te specified prefix.
-    struct Starts: Validation {
+    public struct Starts: Validation {
         
-        var customErrorMessage: String?
+        public var customErrorMessage: String?
         
         private let prefix: String
 
@@ -58,7 +60,7 @@ public struct Rule {
             self.prefix = prefix
         }
 
-        func validate(_ string: String) throws {
+        public func validate(_ string: String) throws {
             if !string.hasPrefix(prefix) {
                 let message = (customErrorMessage != nil) ? customErrorMessage! : NSLocalizedString("MustStartWith_WithFormat", comment: "The text entered must start with the prefix.")
                 let formatedMessage = String.localizedStringWithFormat(message, string)
@@ -69,18 +71,18 @@ public struct Rule {
     }
 
     /// Validates if the string is not empty.
-    struct NotEmpty: Validation {
+    public struct NotEmpty: Validation {
         
-        var fieldName: String
+        private let fieldName: String
         
-        var customErrorMessage: String?
+        public var customErrorMessage: String?
         
-        init(fieldName: String, customErrormEssage: String? = nil) {
+        public init(fieldName: String, customErrormEssage: String? = nil) {
             self.fieldName = fieldName
             self.customErrorMessage = customErrormEssage
         }
 
-        func validate(_ string: String) throws {
+        public func validate(_ string: String) throws {
             if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 let message = (customErrorMessage != nil) ? customErrorMessage! : NSLocalizedString("MustNotBeEmpty_WithFormat", comment: "The text must not be empty.")
                 let formatedMessage = String.localizedStringWithFormat(message, fieldName)

@@ -22,7 +22,7 @@ import Foundation
 extension Rule {
     
     /// Describes the URL protocol
-    enum Scheme {
+    public enum Scheme {
         
         /// Designed to validate http and https URLs.
         case web(onlySSL: Bool)
@@ -58,40 +58,38 @@ extension Rule {
                 
             }
         }
-
-
     }
 
-    struct URL: Validation {
+    public struct URL: Validation {
         
         let scheme: Scheme
         
-        var customErrorMessage: String?
+        public var customErrorMessage: String?
         
         /// Designated initializer method.
         ///
         /// - parameter scheme: Defines the kind of URL protocol to validate, for example: use '.ftp' to validate 'ftp:'.
-        init(scheme: Scheme) {
+        public init(scheme: Scheme) {
             self.scheme = scheme
         }
     
         // MARK: - Sugar instances
 
         /// An Rule.URL instance that validate 'http:' and 'https:' URLs.
-        static var web = URL(scheme: .web(onlySSL: false))
+        public static var web = URL(scheme: .web(onlySSL: false))
         
         /// An Rule.URL instance that only validates 'https:' URLs.
-        static var webSSL = URL(scheme: .web(onlySSL: true))
+        public static var webSSL = URL(scheme: .web(onlySSL: true))
         
         /// An Rule.URL instance that validate 'ftp:' URLs.
-        static var ftp = URL(scheme: .ftp)
+        public static var ftp = URL(scheme: .ftp)
         
         /// An Rule.URL instance that validate 'mailto:' URLs.
-        static var mailto = URL(scheme: .mailto)
+        public static var mailto = URL(scheme: .mailto)
         
         // MARK: - Validation
 
-        func validate(_ string: String) throws {
+        public func validate(_ string: String) throws {
             let expression = "\(scheme.expression)(\\:\\/\\/)?([^\\ ]*)$"
             
             let predicate = NSPredicate(format:"SELF MATCHES[c] %@", expression)
@@ -123,9 +121,5 @@ extension Rule {
                 throw error
             }
         }
-        
-
     }
-
-
 }

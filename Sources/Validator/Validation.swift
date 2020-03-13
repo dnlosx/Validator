@@ -29,5 +29,4 @@ public protocol Validation {
     
     /// Allows to the user specify a custom error message.
     var customErrorMessage: String? { set get }
-
 }

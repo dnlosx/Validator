@@ -1,5 +1,5 @@
 import XCTest
-@testable import Validator
+import Validator
 
 final class ValidatorTests: XCTestCase {
 
@@ -54,7 +54,13 @@ final class ValidatorTests: XCTestCase {
 
         // Test invlalid mailto
         XCTAssertThrowsError(try "http://example@email.com".validate(mailtoRule))
-
+        
+        // Not Sugar syntax
+        
+        let ftpExpandedRule = Rule.URL(scheme: .ftp)
+        
+        // Test valid ftp
+        XCTAssertNoThrow(try "ftp://localhost".validate(ftpExpandedRule))
     }
 
     func testNoEmpty() {
@@ -68,7 +74,7 @@ final class ValidatorTests: XCTestCase {
         XCTAssertThrowsError(try " ".validate(notEmptyRule)) // Space
         XCTAssertThrowsError(try "  ".validate(notEmptyRule)) // Tab
         XCTAssertThrowsError(try "\n".validate(notEmptyRule)) // Break line
-
+        XCTAssertThrowsError(try "  \n".validate(notEmptyRule)) // Many empty characteres.
     }
     
     func testMultiplesRules() {
