@@ -84,7 +84,7 @@ public struct Rule {
 
         public func validate(_ string: String) throws {
             if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                let message = (customErrorMessage != nil) ? customErrorMessage! : NSLocalizedString("MustNotBeEmpty_WithFormat", comment: "The text must not be empty.")
+                let message = customErrorMessage ?? NSLocalizedString("MustNotBeEmpty_WithFormat", comment: "The text must not be empty.")
                 let formatedMessage = String.localizedStringWithFormat(message, fieldName)
                 let error = ValidationError.singleValidation(localizedDescription: formatedMessage)
                 throw error

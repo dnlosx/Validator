@@ -49,7 +49,6 @@ extension String {
         if messages.count > 0 {
             throw  ValidationError.multiValidation(localizedDescriptions: messages)
         }
-
     }
 
     /// Checks if the rule is valid.
@@ -75,5 +74,4 @@ extension String {
             return false
         }
     }
-
 }

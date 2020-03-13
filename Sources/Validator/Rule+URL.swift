@@ -40,7 +40,6 @@ extension Rule {
         /// - parameter scheme: Choose any URL protocol that you want.
         case custom(scheme: String)
         
-        
         fileprivate var expression: String {
             switch self {
             case .web(onlySSL: let onlySSL):
@@ -100,25 +99,29 @@ extension Rule {
                 if let customErrormEssage = customErrorMessage {
                     message = customErrormEssage
                 } else {
-                    switch scheme {
-                    case .ftp:
-                        message = NSLocalizedString("InvalidURLFTP_WithFormat", comment: "The URL entered doesn't have a valid format for ftp.")
-                    case .web(onlySSL: let onlySSL):
-                        if onlySSL {
-                            message = NSLocalizedString("InvalidURLSSL_WithFormat", comment: "The URL entered must be have a valid format that starts with 'https://'.")
-                        } else {
-                            message = NSLocalizedString("InvalidURL_WithFormat", comment: "The URL entered doesn't have a valid format.")
-                        }
-                    case .mailto:
-                        message = NSLocalizedString("InvalidURLMailTo_WithFormat", comment: "The URL entered must be have a valid format that starts with 'mailto://'.")
-                    case .custom(scheme: _):
-                        message = NSLocalizedString("InvalidURL_WithFormat", comment: "The URL entered doesn't have a valid format.")
-                    }
+                    message = localizedMessage(for: scheme)
                 }
                 
                 let formatedMessage = String.localizedStringWithFormat(message, string)
                 let error = ValidationError.singleValidation(localizedDescription: formatedMessage)
                 throw error
+            }
+        }
+        
+        private func localizedMessage(for scheme: Scheme) -> String {
+            switch scheme {
+            case .ftp:
+                return NSLocalizedString("InvalidURLFTP_WithFormat", comment: "The URL entered doesn't have a valid format for ftp.")
+            case .web(onlySSL: let onlySSL):
+                if onlySSL {
+                    return NSLocalizedString("InvalidURLSSL_WithFormat", comment: "The URL entered must have a valid format that starts with 'https://'.")
+                } else {
+                    return NSLocalizedString("InvalidURL_WithFormat", comment: "The URL entered doesn't have a valid format.")
+                }
+            case .mailto:
+                return NSLocalizedString("InvalidURLMailTo_WithFormat", comment: "The URL entered must have a valid format that starts with 'mailto://'.")
+            case .custom(scheme: _):
+                return NSLocalizedString("InvalidURL_WithFormat", comment: "The URL entered doesn't have a valid format.")
             }
         }
     }

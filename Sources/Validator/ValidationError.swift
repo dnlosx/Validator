@@ -18,13 +18,11 @@
 
 import Foundation
 
-
 /// Designated to describe an validation error.
 public enum ValidationError: LocalizedError {
 
     case singleValidation(localizedDescription: String)
     case multiValidation(localizedDescriptions: [String])
-
 
     var localizedDescription: String  {
         switch self {
@@ -34,5 +32,4 @@ public enum ValidationError: LocalizedError {
             return descriptions.joined(separator: "\n")
         }
     }
-
 }
