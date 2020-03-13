@@ -1,7 +1,7 @@
 import XCTest
 @testable import Validator
 
-class ValidatorTests: XCTestCase {
+final class ValidatorTests: XCTestCase {
 
     func testEmail() {
         let emailRule = Rule.Email()
@@ -70,9 +70,27 @@ class ValidatorTests: XCTestCase {
         XCTAssertThrowsError(try "\n".validate(notEmptyRule)) // Break line
 
     }
+    
+    func testMultiplesRules() {
+        let emailRule = Rule.Email()
+        let notEmptyRule = Rule.NotEmpty(fieldName: "First name")
+        
+        let rules: [Validation] = [emailRule, notEmptyRule]
+        
+        // Test valid.
+        XCTAssertNoThrow(try "email@example.com".validate(rules))
+        
+        // Test invalid a lest one.
+        XCTAssertThrowsError(try "a".validate(rules))
+        
+        // Test if all of them are invalid.
+        XCTAssertThrowsError(try "".validate(rules))
+    }
 
     static var allTests = [
         ("testEmail", testEmail),
-        ("testURL", testURL)
+        ("testURL", testURL),
+        ("testNoEmpty", testNoEmpty),
+        ("testMultiplesRules", testMultiplesRules)
     ]
 }

@@ -68,7 +68,7 @@ extension Rule {
         
         var customErrorMessage: String?
         
-        /// Designated initializer method
+        /// Designated initializer method.
         ///
         /// - parameter scheme: Defines the kind of URL protocol to validate, for example: use '.ftp' to validate 'ftp:'.
         init(scheme: Scheme) {
