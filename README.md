@@ -10,4 +10,5 @@ Not ready yet.
     - [x] E-mail validations
     - [x] URL validations
     - [ ] Basic strings validations (not empty, starts with, ends with, etc)
+    - [ ] Payment card
 - [ ] Nice error descripitions
